@@ -7,13 +7,13 @@
       <script>
 
       var protocol = "https"; // The protocol that appears in the pinboard/visualization link
-      var hostPort = "18.195.186.161:443";   // Hostport info for ThoughtSpot app. Ex: <host>:<port> or <host>
+      var hostPort = "<IP>:443";   // Hostport info for ThoughtSpot app. Ex: <host>:<port> or <host>
 
   // Use Actions > Copy link from a pinboard or a visualization in a pinboard to get a link for embedding
       var pinboardId = "3279b03d-9ae6-4e10-848d-ea4c3918487b"; // A pinboard ID to embed. <protocol>:<host>:<port>/#/embed/viz/<pinboardID>
       var vizId = "057d34d5-e7b2-4764-996b-9c4084ed9ec8"; // A visualization ID to embed. <protocol>:<host>:<port>/#/embed/viz/<pinboardID>/<vizId>
-      var user = "Graham";
-      var password = "Chang3m3";
+      var user = "";
+      var password = "";
 
           function auth() {
 
@@ -57,7 +57,6 @@
            success: function (data) {
           alert("Got JSON data! Here it is:\n\n"+JSON.stringify(data));
                      console.log(data);
-          // you did it!
             },
            error: function (data) {
            try {
