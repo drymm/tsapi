@@ -16,7 +16,7 @@ Clone this repo, and:
 3. Enable CORS on ThoughtSpot
 4. Install tomcat and copy `tsapi` dir to (for Mac Brew install): /usr/local/Cellar/tomcat/9.0.5/libexec/webapps
 5. `catalina start`
-6. Point your web browser at [http://localhost:8080/tsapi/tsapi.html] 
+6. Point your web browser at http://localhost:8080/tsapi/tsapi.html
 
 Then click through the buttons provided, ensuring you auth first. 
 
