@@ -1,0 +1,151 @@
+<html>
+  <head>
+      <script src="api.min.js"></script>
+      <script src="jquery-1.8.3.min.js"></script>
+      <script src="jquery-ui-1.10.1.custom.min.js"></script>
+      
+      <script>
+
+      var protocol = "https"; // The protocol that appears in the pinboard/visualization link
+      var hostPort = "18.195.186.161:443";   // Hostport info for ThoughtSpot app. Ex: <host>:<port> or <host>
+
+  // Use Actions > Copy link from a pinboard or a visualization in a pinboard to get a link for embedding
+      var pinboardId = "3279b03d-9ae6-4e10-848d-ea4c3918487b"; // A pinboard ID to embed. <protocol>:<host>:<port>/#/embed/viz/<pinboardID>
+      var vizId = "057d34d5-e7b2-4764-996b-9c4084ed9ec8"; // A visualization ID to embed. <protocol>:<host>:<port>/#/embed/viz/<pinboardID>/<vizId>
+      var user = "Graham";
+      var password = "Chang3m3";
+
+          function auth() {
+
+          $.ajax(protocol + "://" + hostPort + "/callosum/v1/session/login", 
+            {
+              data: {
+                      username: user,
+                      password: password,
+                      rememberme: true
+                    },
+              type: 'POST',
+              xhrFields: {
+                            withCredentials: true
+                        },
+              timeout: 3000, // connection attempt timesout in 3 seconds
+              success: function (data) {
+                                          alert("Successfully logged on!");
+                                      },
+              error: function (data) {
+                      try {
+                            var jsonData = JSON.stringify(data);
+                          } catch(e) {
+                                        alert(e);
+                                    }
+                      }  
+         });
+          }
+
+          function getJSON() {
+                 var myURL = protocol + "://" + hostPort + "/callosum/v1/tspublic/v1/pinboarddata?id=" + pinboardId + "&vizid=%5B" + vizId + "%5D";
+
+         $.ajax(myURL, {
+           data: {
+            rememberme: true
+            },
+         type: 'POST',
+          xhrFields: {
+         withCredentials: true
+         },
+           timeout: 3000, // connection attempt timesout in 3 seconds
+           success: function (data) {
+          alert("Got JSON data! Here it is:\n\n"+JSON.stringify(data));
+                     console.log(data);
+          // you did it!
+            },
+           error: function (data) {
+           try {
+           alert("Error="+data);
+                var jsonData = JSON.stringify(data);
+                } catch(e) {
+                            alert(e);
+                           }
+              }    
+         });
+        }
+
+          function embedVisualizationIframe() {
+       var divElement = document.getElementById("v-embeded-content");
+       divElement.innerHTML = "";
+       document.getElementById("v-embeded-content").appendChild(
+           getIframeToEmbedVisualization(pinboardId, vizId))
+     };
+
+     function getIframeToEmbedVisualization(pId, vId) {
+       var tsApp = document.createElement('iframe');
+       tsApp.width = "60%";
+       tsApp.height = "60%";
+       tsApp.src = getHostURL() + "/#/embed/viz/" + pId + "/" + vId;
+       console.log(tsApp.src);
+       return tsApp;
+    }
+       function getHostURL() {
+       return protocol + "://" + hostPort;
+   }
+   
+      function getIframeToEmbedPinboard(pId) {
+       var tsApp = document.createElement('iframe');
+       tsApp.width = "100%";
+       tsApp.height = "100%";
+       tsApp.src = getHostURL() + "/#/embed/viz/" + pId;
+       console.log(tsApp.src);
+       return tsApp;
+   }
+
+     function embedPinboardIframe() {
+       var divElement = document.getElementById("p-embeded-content");
+       divElement.innerHTML = "";
+       document.getElementById("p-embeded-content").appendChild(
+           getIframeToEmbedPinboard(pinboardId));
+   }
+
+      </script>
+
+  </head>
+  <body id="body">
+      <form>
+         <h2>Javascript and REST API Examples</h2>
+         <h3>Simple Auth</h3>
+         <div>
+             <input type="button" id="forwardBtn" name="forwardBtn"
+               value="Authenticate" onclick="auth();" /> <img
+               id="loader2" width="18" height="18" alt="Loading ..."
+               src=""
+               style="display: none; padding-left: 2px; vertical-align: top; padding-top: 1px;">
+          <br/>
+          <h3>Fetch JSON data</h3>
+            <input type="button" id="forwardBtn" name="forwardBtn"
+               value="Get JSON Data" onclick="getJSON();" /> <img
+               id="loader2" width="18" height="18" alt="Loading ..."
+               src=""
+               style="display: none; padding-left: 2px; vertical-align: middle; padding-top: 1px;"> 
+              <span id="error2"></span>
+          <br/>
+          <h3>Load embedded Viz</h3>
+            <input type="button" id="forwardBtn" name="forwardBtn"
+               value="Get Viz" onclick="embedVisualizationIframe();" /> <img
+               id="loader2" width="18" height="18" alt="Loading ..."
+               src=""
+               style="display: none; padding-left: 2px; vertical-align: middle; padding-top: 1px;"> 
+              <span id="error2"></span>
+          <h3>Load embedded Pinboard</h3>
+            <input type="button" id="forwardBtn" name="forwardBtn"
+               value="Get Pinboard" onclick="embedPinboardIframe();" /> <img
+               id="loader2" width="18" height="18" alt="Loading ..."
+               src=""
+               style="display: none; padding-left: 2px; vertical-align: middle; padding-top: 1px;"> 
+              <span id="error2"></span>
+         </div>
+         <h3>Embedded vizualization</h3>
+         <div id="v-embeded-content"></div>
+         <h3>Embedded pinboard</h3>
+         <div id="p-embeded-content"></div>
+      </form>
+  </body>
+</html>
