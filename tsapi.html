@@ -1,5 +1,7 @@
 <html>
   <head>
+      <title>ThoughtSpot API Examples</title>
+      <link rel="icon" href="favicon.ico">
       <script src="js/api.min.js"></script>
       <script src="js/jquery-1.8.3.min.js"></script>
       <script src="js/jquery-ui-1.10.1.custom.min.js"></script>
@@ -7,13 +9,13 @@
       <script>
 
       var protocol = "https"; // The protocol that appears in the pinboard/visualization link
-      var hostPort = "<IP>:443";   // Hostport info for ThoughtSpot app. Ex: <host>:<port> or <host>
+      var hostPort = "18.195.186.161:443";   // Hostport info for ThoughtSpot app. Ex: <host>:<port> or <host>
 
   // Use Actions > Copy link from a pinboard or a visualization in a pinboard to get a link for embedding
       var pinboardId = "3279b03d-9ae6-4e10-848d-ea4c3918487b"; // A pinboard ID to embed. <protocol>:<host>:<port>/#/embed/viz/<pinboardID>
       var vizId = "057d34d5-e7b2-4764-996b-9c4084ed9ec8"; // A visualization ID to embed. <protocol>:<host>:<port>/#/embed/viz/<pinboardID>/<vizId>
-      var user = "";
-      var password = "";
+      var user = "portal";
+      var password = "Chang3m3";
 
           function auth() {
 
@@ -57,6 +59,7 @@
            success: function (data) {
           alert("Got JSON data! Here it is:\n\n"+JSON.stringify(data));
                      console.log(data);
+          // you did it!
             },
            error: function (data) {
            try {
